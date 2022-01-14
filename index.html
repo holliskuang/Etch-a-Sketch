@@ -45,13 +45,13 @@ reset.addEventListener('click',function(e){
 // rainbow checkbox to toggle rainbox color
 const rainbow =document.querySelector('.rainbow');
 
-//default - controls color shading
-rainbow.addEventListener('click', function(e){
+// Turns shading into rainbow but resets grid in order to do so
+
+/*rainbow.addEventListener('click', function(e){
     if (rainbow.checked){
     grid.innerHTML='';
   for (let i = 0; i < lastSize * lastSize; i++) {
     const gridElement = document.createElement('div')
-    gridElement.removeEventListener('mouseover', changeColor)
     gridElement.addEventListener('mouseover',changeRainbow);
     grid.appendChild(gridElement)
   }
@@ -61,6 +61,8 @@ rainbow.addEventListener('click', function(e){
     }
 
 })
+*/
+
 // set up normal Grid
 const grid = document.querySelector('.grid')
 function setupGrid(size,changer=changeColor) {
@@ -75,19 +77,20 @@ function setupGrid(size,changer=changeColor) {
 }
 
 
-//shades gridElements  
+//Colors Grid Elements Rainbow or Grey
 function changeColor(e){
-    this.style.backgroundColor = 'rgba(0,0,0,0.4)'
-    this.style.transition ='all 1s ease'
-}
-// rainbow gridElements
-function changeRainbow(gridElement){
+    if (rainbow.checked){
     const randomR = Math.floor(Math.random() * 256)
     const randomG = Math.floor(Math.random() * 256)
     const randomB = Math.floor(Math.random() * 256)
     this.style.backgroundColor = `rgb(${randomR}, ${randomG}, ${randomB})`
     this.style.transition ='all 1s ease'
+    }
+    else {
+    this.style.backgroundColor = 'rgba(0,0,0,0.4)'
+    this.style.transition ='all 1s ease'}
 }
+
 
 
 
