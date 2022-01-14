@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link  rel="stylesheet" href="style.css"
+     crossorigin="anonymous">
+</head>
+<body>
+<div class=page>
+<div id="grid" class="grid"></div>
+<button id='reset' class= 'reset'> Reset </button>
+<input type='checkbox' id='rainbow' class= 'rainbow'></checkbox>
+<div class='pretty'> 
+    <span style='color: blue'>R</span>
+    <span style='color: red'>a</span>
+    <span style='color: violet'>i</span>
+    <span style='color: salmon'>n</span>
+    <span style='color: lawngreen'>b</span>
+    <span style='color: blue'>o</span>
+    <span style='color: turquoise'>w</span>
+</div>
+</div>
+    <script>
+// memory of last size, updates when reset occurs, used by rainbow shader to change attributes of grid
+let lastSize=20;
+//reset button that prompts user for rows and columns to use and resets grid
+const reset =document.querySelector('.reset');
+reset.addEventListener('click',function(e){
+    let question =prompt("How many rows and columns would you like? Max:100")
+    lastSize=question;
+    rainbow.checked=false;
+    if (question>0 && question<=100){
+    grid.innerHTML = ''
+    setupGrid(question);
+    }
+    else if (question===null)
+        return;
+    else alert('Invalid Response')
+    return;
+});
+// rainbow checkbox to toggle rainbox color
+const rainbow =document.querySelector('.rainbow');
+
+//default - controls color shading
+rainbow.addEventListener('click', function(e){
+    if (rainbow.checked){
+    grid.innerHTML='';
+  for (let i = 0; i < lastSize * lastSize; i++) {
+    const gridElement = document.createElement('div')
+    gridElement.removeEventListener('mouseover', changeColor)
+    gridElement.addEventListener('mouseover',changeRainbow);
+    grid.appendChild(gridElement)
+  }
+}
+    else {
+        setupGrid(lastSize)
+    }
+
+})
+// set up normal Grid
+const grid = document.querySelector('.grid')
+function setupGrid(size,changer=changeColor) {
+  grid.style.gridTemplateColumns = `repeat(${size}, 1fr)`
+  grid.style.gridTemplateRows = `repeat(${size}, 1fr)`
+  grid.innerHTML = ''
+  for (let i = 0; i < size * size; i++) {
+    const gridElement = document.createElement('div')
+    gridElement.addEventListener('mouseover', changeColor)
+    grid.appendChild(gridElement)
+  }
+}
+
+
+//shades gridElements  
+function changeColor(e){
+    this.style.backgroundColor = 'rgba(0,0,0,0.4)'
+    this.style.transition ='all 1s ease'
+}
+// rainbow gridElements
+function changeRainbow(gridElement){
+    const randomR = Math.floor(Math.random() * 256)
+    const randomG = Math.floor(Math.random() * 256)
+    const randomB = Math.floor(Math.random() * 256)
+    this.style.backgroundColor = `rgb(${randomR}, ${randomG}, ${randomB})`
+    this.style.transition ='all 1s ease'
+}
+
+
+
+setupGrid(20);
+    </script>
+</body>
+</html>
